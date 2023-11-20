@@ -32,6 +32,7 @@ public class UserDetailsImpl implements UserDetails {
         return user.getUsername();
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         UserRoleEnum role = user.getRole();
