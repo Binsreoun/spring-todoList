@@ -1,7 +1,5 @@
 package com.sparta.springtodolist.service;
 
-import com.sparta.springtodolist.dto.BoardRequestDto;
-import com.sparta.springtodolist.dto.BoardResponseDto;
 import com.sparta.springtodolist.dto.CommentRequestDto;
 import com.sparta.springtodolist.dto.CommentResponseDto;
 import com.sparta.springtodolist.entity.Board;
@@ -50,7 +48,7 @@ public class CommentService {
         commentRepository.delete(comment);
         return id;
     }
-
+    @Transactional
     public List<CommentResponseDto> viewComment(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("선택한 게시물이 존재하지 않습니다."));
