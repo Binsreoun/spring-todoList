@@ -1,6 +1,7 @@
 package com.sparta.springtodolist.service;
 
 import com.sparta.springtodolist.dto.BoardRequestDto;
+import com.sparta.springtodolist.dto.BoardResponseDto;
 import com.sparta.springtodolist.dto.CommentRequestDto;
 import com.sparta.springtodolist.dto.CommentResponseDto;
 import com.sparta.springtodolist.entity.Board;
@@ -12,12 +13,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
 
+    @Transactional
     public CommentResponseDto createComment(Long id, CommentRequestDto CommentRequestDto, User user) {
         Board board  = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("선택한 게시물이 존재하지 않습니다."));
@@ -45,5 +49,11 @@ public class CommentService {
         }
         commentRepository.delete(comment);
         return id;
+    }
+
+    public List<CommentResponseDto> viewComment(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("선택한 게시물이 존재하지 않습니다."));
+        return commentRepository.findByBoard(board).stream().map(CommentResponseDto::new).toList();
     }
 }

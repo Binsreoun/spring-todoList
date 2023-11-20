@@ -19,6 +19,10 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @GetMapping("/contents/{id}")
+    public List<CommentResponseDto> viewComment(@PathVariable Long id){
+        return commentService.viewComment(id);
+    }
     @PostMapping("/create/{id}")
     public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.createComment(id,commentRequestDto,userDetails.getUser());
