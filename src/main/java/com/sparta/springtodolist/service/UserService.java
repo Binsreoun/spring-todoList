@@ -17,7 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public String signup(SignupRequestDto requestDto) {
+    public void signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
 
@@ -29,10 +29,9 @@ public class UserService {
 
         User user = new User(username, password, UserRoleEnum.USER);
         userRepository.save(user);
-        return "회원가입 되었습니다.";
     }
 
-    public String adminSignup(SignupRequestDto requestDto) {
+    public void  adminSignup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
 
@@ -44,6 +43,5 @@ public class UserService {
 
         User user = new User(username, password, UserRoleEnum.ADMIN);
         userRepository.save(user);
-        return "회원가입 되었습니다.";
     }
 }
