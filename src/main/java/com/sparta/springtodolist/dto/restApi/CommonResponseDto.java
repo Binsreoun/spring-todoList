@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.dto;
+package com.sparta.springtodolist.dto.restApi;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
