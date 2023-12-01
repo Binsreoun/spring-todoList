@@ -1,5 +1,6 @@
 package com.sparta.springtodolist.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.springtodolist.filter.JwtAuthenticationFilter;
 import com.sparta.springtodolist.filter.JwtAuthorizationFilter;
 import com.sparta.springtodolist.security.UserDetailsServiceImpl;
@@ -24,6 +25,7 @@ public class WebSecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final ObjectMapper objectMapper;
 
     //
     @Bean
@@ -34,14 +36,14 @@ public class WebSecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil,objectMapper);
         filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
         return filter;
     }
 
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtUtil, userDetailsService);
+        return new JwtAuthorizationFilter(jwtUtil, userDetailsService, objectMapper);
     }
 
     @Bean
