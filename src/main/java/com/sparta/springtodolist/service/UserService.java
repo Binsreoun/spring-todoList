@@ -4,14 +4,10 @@ import com.sparta.springtodolist.dto.SignupRequestDto;
 import com.sparta.springtodolist.entity.User;
 import com.sparta.springtodolist.entity.UserRoleEnum;
 import com.sparta.springtodolist.repository.UserRepository;
-import jakarta.validation.ValidationException;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
 @Service
 @RequiredArgsConstructor
@@ -19,13 +15,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    public void userValidation(BindingResult bindingResult) {
-        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        if (!fieldErrors.isEmpty()) {
-            throw new ValidationException("회원가입 오류입니다.");
-        }
-    }
 
     public User signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();

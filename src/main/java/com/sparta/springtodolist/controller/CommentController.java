@@ -1,40 +1,57 @@
 package com.sparta.springtodolist.controller;
 
-import com.sparta.springtodolist.dto.BoardRequestDto;
-import com.sparta.springtodolist.dto.BoardResponseDto;
 import com.sparta.springtodolist.dto.CommentRequestDto;
-import com.sparta.springtodolist.dto.CommentResponseDto;
+import com.sparta.springtodolist.dto.restApi.RestApiResponseDto;
 import com.sparta.springtodolist.security.UserDetailsImpl;
 import com.sparta.springtodolist.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/comment")
+@RequestMapping("/api/comments")
 public class CommentController {
 
     private final CommentService commentService;
 
     @GetMapping("/contents/{id}")
-    public List<CommentResponseDto> viewComment(@PathVariable Long id){
-        return commentService.viewComment(id);
+    public ResponseEntity<RestApiResponseDto> viewComment(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK.value())
+            .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
+                commentService.viewComment(id)));
     }
+
     @PostMapping("/create/{id}")
-    public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentService.createComment(id,commentRequestDto,userDetails.getUser());
+    public ResponseEntity<RestApiResponseDto> createComment(@PathVariable Long id,
+        @RequestBody CommentRequestDto commentRequestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.status(HttpStatus.OK.value())
+            .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
+                commentService.createComment(id, commentRequestDto, userDetails.getUser())));
     }
 
     @PostMapping("/update/{id}")
-    public CommentResponseDto updateComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentService.updateComment(id,commentRequestDto,userDetails.getUser());
+    public ResponseEntity<RestApiResponseDto> updateComment(@PathVariable Long id,
+        @RequestBody CommentRequestDto commentRequestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.status(HttpStatus.OK.value())
+            .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
+                commentService.updateComment(id, commentRequestDto, userDetails.getUser())));
     }
 
     @PostMapping("/delete/{id}")
-    public Long deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentService.deleteComment(id,userDetails.getUser());
+    public ResponseEntity<RestApiResponseDto> deleteComment(@PathVariable Long id,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.status(HttpStatus.OK.value())
+            .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
+                commentService.deleteComment(id, userDetails.getUser())));
     }
 }
