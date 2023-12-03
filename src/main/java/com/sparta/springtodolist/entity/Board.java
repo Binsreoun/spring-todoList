@@ -2,7 +2,15 @@ package com.sparta.springtodolist.entity;
 
 
 import com.sparta.springtodolist.dto.BoardRequestDto;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +21,7 @@ import lombok.Setter;
 @Table(name = "board") // 매핑할 테이블의 이름을 지정
 @NoArgsConstructor
 public class Board extends Timestamped {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +36,7 @@ public class Board extends Timestamped {
     private boolean finish;
 
 
-    public Board(BoardRequestDto boardRequestDto,User user) {
+    public Board(BoardRequestDto boardRequestDto, User user) {
         this.user = user;
         this.title = boardRequestDto.getTitle();
         this.detail = boardRequestDto.getDetail();
@@ -38,8 +47,8 @@ public class Board extends Timestamped {
         this.detail = boardRequestDto.getDetail();
     }
 
-    public void finish(boolean finish) {
-        this.finish = finish;
+    public void finish() {
+        this.finish = !finish;
     }
 
 }
