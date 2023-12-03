@@ -21,14 +21,13 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public void userValidation(BindingResult bindingResult) {
-        // Validation 예외처리
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         if (!fieldErrors.isEmpty()) {
             throw new ValidationException("회원가입 오류입니다.");
         }
     }
 
-    public void signup(SignupRequestDto requestDto) {
+    public User signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
 
@@ -40,9 +39,10 @@ public class UserService {
 
         User user = new User(username, password, UserRoleEnum.USER);
         userRepository.save(user);
+        return user;
     }
 
-    public void adminSignup(SignupRequestDto requestDto) {
+    public User adminSignup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
 
@@ -54,5 +54,6 @@ public class UserService {
 
         User user = new User(username, password, UserRoleEnum.ADMIN);
         userRepository.save(user);
+        return user;
     }
 }

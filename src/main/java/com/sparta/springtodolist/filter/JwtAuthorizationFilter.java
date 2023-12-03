@@ -2,7 +2,7 @@ package com.sparta.springtodolist.filter;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.springtodolist.dto.restApi.CommonResponseDto;
+import com.sparta.springtodolist.dto.restApi.RestApiExceptionDto;
 import com.sparta.springtodolist.security.UserDetailsServiceImpl;
 import com.sparta.springtodolist.util.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -11,7 +11,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -44,18 +43,20 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 try {
                     setAuthentication(info.getSubject());
                 } catch (Exception e) {
-                    CommonResponseDto commonResponseDto = new CommonResponseDto("토큰이 유효하지 않습니다",
-                            HttpStatus.BAD_REQUEST.value());
+                    RestApiExceptionDto restApiExceptionDto = new RestApiExceptionDto(
+                        "토큰이 유효하지 않습니다",
+                        HttpStatus.BAD_REQUEST.value());
                     res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     res.setContentType("application/json; charset=UTF-8");
-                    res.getWriter().write(objectMapper.writeValueAsString(commonResponseDto));
+                    res.getWriter().write(objectMapper.writeValueAsString(restApiExceptionDto));
                 }
             } else {
-                CommonResponseDto commonResponseDto = new CommonResponseDto("토큰이 유효하지 않습니다",
+                RestApiExceptionDto restApiExceptionDto = new RestApiExceptionDto(
+                    "토큰이 유효하지 않습니다",
                     HttpStatus.BAD_REQUEST.value());
                 res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 res.setContentType("application/json; charset=UTF-8");
-                res.getWriter().write(objectMapper.writeValueAsString(commonResponseDto));
+                res.getWriter().write(objectMapper.writeValueAsString(restApiExceptionDto));
             }
 
         }
