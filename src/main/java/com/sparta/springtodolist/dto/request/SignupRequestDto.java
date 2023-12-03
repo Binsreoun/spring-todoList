@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.dto;
+package com.sparta.springtodolist.dto.request;
 
 
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SignupRequestDto {
+
     @NotBlank
     @Size(min = 4, max = 10, message = "최소 4자 이상, 10자 이하의 숫자를 입력하세요")
     @Pattern(regexp = "^[a-z0-9]*$", message = "알파벳 소문자(a~z), 숫자(0~9)만 입력 가능합니다.")

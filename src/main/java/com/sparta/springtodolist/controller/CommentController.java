@@ -1,6 +1,6 @@
 package com.sparta.springtodolist.controller;
 
-import com.sparta.springtodolist.dto.CommentRequestDto;
+import com.sparta.springtodolist.dto.request.CommentRequestDto;
 import com.sparta.springtodolist.dto.restApi.RestApiResponseDto;
 import com.sparta.springtodolist.security.UserDetailsImpl;
 import com.sparta.springtodolist.service.CommentService;

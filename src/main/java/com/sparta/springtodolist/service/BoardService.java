@@ -1,7 +1,7 @@
 package com.sparta.springtodolist.service;
 
-import com.sparta.springtodolist.dto.BoardRequestDto;
-import com.sparta.springtodolist.dto.BoardResponseDto;
+import com.sparta.springtodolist.dto.request.BoardRequestDto;
+import com.sparta.springtodolist.dto.response.BoardResponseDto;
 import com.sparta.springtodolist.entity.Board;
 import com.sparta.springtodolist.entity.User;
 import com.sparta.springtodolist.repository.BoardRepository;

@@ -1,6 +1,6 @@
 package com.sparta.springtodolist.controller;
 
-import com.sparta.springtodolist.dto.SignupRequestDto;
+import com.sparta.springtodolist.dto.request.SignupRequestDto;
 import com.sparta.springtodolist.dto.restApi.RestApiResponseDto;
 import com.sparta.springtodolist.service.UserService;
 import jakarta.validation.Valid;

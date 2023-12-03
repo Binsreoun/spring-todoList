@@ -1,7 +1,7 @@
 package com.sparta.springtodolist.entity;
 
 
-import com.sparta.springtodolist.dto.BoardRequestDto;
+import com.sparta.springtodolist.dto.request.BoardRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

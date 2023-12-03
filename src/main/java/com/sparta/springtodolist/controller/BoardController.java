@@ -1,6 +1,6 @@
 package com.sparta.springtodolist.controller;
 
-import com.sparta.springtodolist.dto.BoardRequestDto;
+import com.sparta.springtodolist.dto.request.BoardRequestDto;
 import com.sparta.springtodolist.dto.restApi.RestApiResponseDto;
 import com.sparta.springtodolist.security.UserDetailsImpl;
 import com.sparta.springtodolist.service.BoardService;

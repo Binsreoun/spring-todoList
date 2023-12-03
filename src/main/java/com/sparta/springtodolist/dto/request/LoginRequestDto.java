@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.dto;
+package com.sparta.springtodolist.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,6 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class LoginRequestDto {
+
     private String username;
     private String password;
 }

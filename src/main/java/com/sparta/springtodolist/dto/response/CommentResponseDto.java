@@ -1,10 +1,11 @@
-package com.sparta.springtodolist.dto;
+package com.sparta.springtodolist.dto.response;
 
 import com.sparta.springtodolist.entity.Comment;
 import lombok.Getter;
 
 @Getter
 public class CommentResponseDto {
+
     private final Long id;
     private final String username;
     private final String detail;

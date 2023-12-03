@@ -1,6 +1,6 @@
 package com.sparta.springtodolist.service;
 
-import com.sparta.springtodolist.dto.SignupRequestDto;
+import com.sparta.springtodolist.dto.request.SignupRequestDto;
 import com.sparta.springtodolist.entity.User;
 import com.sparta.springtodolist.entity.UserRoleEnum;
 import com.sparta.springtodolist.repository.UserRepository;

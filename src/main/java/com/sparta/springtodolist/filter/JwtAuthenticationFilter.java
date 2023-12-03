@@ -1,7 +1,7 @@
 package com.sparta.springtodolist.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.springtodolist.dto.LoginRequestDto;
+import com.sparta.springtodolist.dto.request.LoginRequestDto;
 import com.sparta.springtodolist.dto.restApi.RestApiExceptionDto;
 import com.sparta.springtodolist.dto.restApi.RestApiResponseDto;
 import com.sparta.springtodolist.entity.UserRoleEnum;

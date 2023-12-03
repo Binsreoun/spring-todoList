@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.dto;
+package com.sparta.springtodolist.dto.response;
 
 import com.sparta.springtodolist.entity.Board;
 import lombok.Getter;
@@ -13,10 +13,10 @@ public class BoardResponseDto {
     private final boolean finish;
 
     public BoardResponseDto(Board Board) {
-        this.id= Board.getId();
+        this.id = Board.getId();
         this.username = Board.getUser().getUsername();
-        this.title=Board.getTitle();
-        this.detail=Board.getDetail();
-        this.finish=Board.isFinish();
+        this.title = Board.getTitle();
+        this.detail = Board.getDetail();
+        this.finish = Board.isFinish();
     }
 }
