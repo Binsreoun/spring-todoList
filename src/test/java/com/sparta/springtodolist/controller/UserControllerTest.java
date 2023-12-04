@@ -84,7 +84,7 @@ class UserControllerTest {
         String jsonString = objectMapper.writeValueAsString(signupRequestDto);
 
         // when - then
-        mvc.perform(post("/api/users/signup")
+        mvc.perform(post("/api/users/admin/signup")
                 .content(jsonString)
                 .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
                 .accept(MediaType.APPLICATION_JSON)

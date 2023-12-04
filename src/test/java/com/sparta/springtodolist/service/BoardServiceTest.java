@@ -143,7 +143,7 @@ class BoardServiceTest {
         given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
 
         BoardResponseDto boardResponseDto = boardService.updateBoard(board.getId(),
-            boardRequestDto, user);
+            boardRequestDto2, user);
 
         assertThat(boardResponseDto.getUsername()).isEqualTo(board.getUser().getUsername());
         assertThat(boardResponseDto.getTitle()).isEqualTo(boardRequestDto2.getTitle());
