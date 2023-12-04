@@ -25,7 +25,7 @@ class UserServiceTest {
     UserRepository userRepository;
     @Mock
     PasswordEncoder passwordEncoder;
-  
+
     UserService userService;
 
 
@@ -97,7 +97,7 @@ class UserServiceTest {
         given(userRepository.findByUsername(username)).willReturn(Optional.of(user));
 
         // when & then
-        assertThatThrownBy(() -> userService.signup(signupRequestDto)).isInstanceOf(
+        assertThatThrownBy(() -> userService.adminSignup(signupRequestDto)).isInstanceOf(
             IllegalArgumentException.class);
     }
 }
