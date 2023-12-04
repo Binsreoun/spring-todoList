@@ -25,7 +25,7 @@ class UserServiceTest {
     UserRepository userRepository;
     @Mock
     PasswordEncoder passwordEncoder;
-    @Mock
+  
     UserService userService;
 
 

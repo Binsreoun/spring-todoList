@@ -19,10 +19,9 @@ class BoardResponseDtoTest {
     private final Board board = new Board(boardRequestDto, user);
     private final BoardResponseDto responseDto = new BoardResponseDto(board);
 
-
     @Test
     @DisplayName("BoardResponseDto 생성자 테스트")
-    void BoardResponseDto() {
+    void builder() {
         assertNull(responseDto.getId());
         assertEquals("username", responseDto.getUsername());
         assertEquals("테스트 타이틀", responseDto.getTitle());
