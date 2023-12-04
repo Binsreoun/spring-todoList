@@ -44,6 +44,7 @@ class UserControllerTest {
     UserRepository userRepository;
     private MockMvc mvc;
     private Principal mockPrincipal;
+
     @Autowired
     private WebApplicationContext context;
     @Autowired
