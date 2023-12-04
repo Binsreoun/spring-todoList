@@ -22,11 +22,12 @@ class CommentResponseDtoTest {
         .detail("테스트 댓글 디테일").build();
     private final Board board = new Board(boardRequestDto, user);
     private final Comment comment = new Comment(commentRequestDto, user, board);
-    private final CommentResponseDto responseDto = new CommentResponseDto(comment);
+
 
     @Test
     @DisplayName("CommentResponseDto 생성자 테스트")
     void builder() {
+        CommentResponseDto responseDto = new CommentResponseDto(comment);
         assertNull(responseDto.getId());
         assertEquals("username", responseDto.getUsername());
         assertEquals("테스트 댓글 디테일", responseDto.getDetail());
@@ -34,16 +35,19 @@ class CommentResponseDtoTest {
 
     @Test
     void getId() {
+        CommentResponseDto responseDto = new CommentResponseDto(comment);
         assertNull(responseDto.getId());
     }
 
     @Test
     void getUsername() {
+        CommentResponseDto responseDto = new CommentResponseDto(comment);
         assertEquals("username", responseDto.getUsername());
     }
 
     @Test
     void getDetail() {
+        CommentResponseDto responseDto = new CommentResponseDto(comment);
         assertEquals("테스트 댓글 디테일", responseDto.getDetail());
     }
 }

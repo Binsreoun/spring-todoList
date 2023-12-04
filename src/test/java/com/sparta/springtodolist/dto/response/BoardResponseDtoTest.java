@@ -17,11 +17,11 @@ class BoardResponseDtoTest {
     private final BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
         .detail("테스트 디테일").build();
     private final Board board = new Board(boardRequestDto, user);
-    private final BoardResponseDto responseDto = new BoardResponseDto(board);
 
     @Test
     @DisplayName("BoardResponseDto 생성자 테스트")
     void builder() {
+        BoardResponseDto responseDto = new BoardResponseDto(board);
         assertNull(responseDto.getId());
         assertEquals("username", responseDto.getUsername());
         assertEquals("테스트 타이틀", responseDto.getTitle());
@@ -31,26 +31,31 @@ class BoardResponseDtoTest {
 
     @Test
     void getId() {
+        BoardResponseDto responseDto = new BoardResponseDto(board);
         assertNull(responseDto.getId());
     }
 
     @Test
     void getUsername() {
+        BoardResponseDto responseDto = new BoardResponseDto(board);
         assertEquals("username", responseDto.getUsername());
     }
 
     @Test
     void getTitle() {
+        BoardResponseDto responseDto = new BoardResponseDto(board);
         assertEquals("테스트 타이틀", responseDto.getTitle());
     }
 
     @Test
     void getDetail() {
+        BoardResponseDto responseDto = new BoardResponseDto(board);
         assertEquals("테스트 디테일", responseDto.getDetail());
     }
 
     @Test
     void isFinish() {
+        BoardResponseDto responseDto = new BoardResponseDto(board);
         assertFalse(responseDto.isFinish());
     }
 

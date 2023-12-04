@@ -18,8 +18,6 @@ class SignupRequestDtoTest {
     private static ValidatorFactory validatorFactory;
     private static Validator validator;
 
-    SignupRequestDto signupRequestDto = SignupRequestDto.builder().username("test123")
-        .password("12345678").build();
 
     @BeforeAll
     public static void init() {
@@ -33,38 +31,49 @@ class SignupRequestDtoTest {
         validatorFactory.close();
     }
 
+    void builder() {
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder().username("test123")
+            .password("12345678").build();
+        assertEquals("test123", signupRequestDto.getUsername());
+        assertEquals("12345678", signupRequestDto.getPassword());
+    }
+
     @Test
     void getUsername() {
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder().username("test123")
+            .password("12345678").build();
         assertEquals("test123", signupRequestDto.getUsername());
     }
 
     @DisplayName("Validation username 에러")
     @Test
     void getUsername_fail1() {
-        SignupRequestDto signupRequestDtoErr = SignupRequestDto.builder()
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder()
             .username("test1234564645645646")
             .password("12345678").build();
         Set<ConstraintViolation<SignupRequestDto>> violations = validator.validate(
-            signupRequestDtoErr);
+            signupRequestDto);
 
         assertThat(violations).isNotEmpty();
     }
 
     @Test
     void getPassword() {
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder().username("test123")
+            .password("12345678").build();
         assertEquals("12345678", signupRequestDto.getPassword());
     }
 
     @DisplayName("Validation password 에러")
     @Test
     void getPassword_fail1() {
-        SignupRequestDto signupRequestDtoErr = SignupRequestDto.builder()
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder()
             .username("test123")
             .password("123").build();
         Set<ConstraintViolation<SignupRequestDto>> violations = validator.validate(
-            signupRequestDtoErr);
+            signupRequestDto);
 
         assertThat(violations).isNotEmpty();
     }
-    
+
 }
