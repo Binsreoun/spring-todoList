@@ -2,8 +2,11 @@ package com.sparta.springtodolist.controller;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -142,15 +145,73 @@ class BoardControllerTest {
     }
 
     @Test
-    void updateBoard() {
+    void updateBoard() throws Exception {
+        this.mockUserSetup();
+        BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
+            .detail("테스트 디테일").build();
+        Board board = new Board(boardRequestDto, userDetails.getUser());
+        board.setId(1L);
+        BoardRequestDto boardRequestDto2 = BoardRequestDto.builder().title("수정 타이틀")
+            .detail("수정").build();
+        Board board2 = new Board(boardRequestDto2, userDetails.getUser());
 
+        given(boardService.updateBoard(board.getId(), boardRequestDto2,
+            userDetails.getUser())).willReturn(new BoardResponseDto(board2));
+
+        String json = objectMapper.writeValueAsString(boardRequestDto2);
+
+        mvc.perform(put("/api/boards/update/1").accept(MediaType.APPLICATION_JSON)
+                .content(json)
+                .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
+                .accept(MediaType.APPLICATION_JSON)
+                .principal(mockPrincipal)
+            )
+            .andExpect(status().isOk())
+            .andDo(print());
     }
 
     @Test
-    void finishBoard() {
+    void finishBoard() throws Exception {
+        this.mockUserSetup();
+        BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
+            .detail("테스트 디테일").build();
+        Board board = new Board(boardRequestDto, userDetails.getUser());
+        board.setId(1L);
+
+        Board board2 = new Board(boardRequestDto, userDetails.getUser());
+        board2.setFinish(true);
+        board2.setId(1L);
+        given(boardService.finishBoard(board.getId(), userDetails.getUser())).willReturn(
+            new BoardResponseDto(board2));
+
+        mvc.perform(patch("/api/boards/finish/1").accept(MediaType.APPLICATION_JSON)
+                .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
+                .accept(MediaType.APPLICATION_JSON)
+                .principal(mockPrincipal)
+            )
+            .andExpect(status().isOk())
+            .andDo(print());
     }
 
     @Test
-    void deleteBoard() {
+    void deleteBoard() throws Exception {
+        this.mockUserSetup();
+
+        this.mockUserSetup();
+        BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
+            .detail("테스트 디테일").build();
+        Board board = new Board(boardRequestDto, userDetails.getUser());
+        board.setId(1L);
+
+        given(boardService.deleteBoard(board.getId(), userDetails.getUser())).willReturn(
+            "삭제 완료");
+
+        mvc.perform(delete("/api/boards/delete/1").accept(MediaType.APPLICATION_JSON)
+                .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
+                .accept(MediaType.APPLICATION_JSON)
+                .principal(mockPrincipal)
+            )
+            .andExpect(status().isOk())
+            .andDo(print());
     }
 }

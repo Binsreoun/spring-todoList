@@ -4,6 +4,7 @@ import com.sparta.springtodolist.dto.restApi.RestApiExceptionDto;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -55,6 +56,21 @@ public class GlobalExceptionHandler {
         RestApiExceptionDto restApiExceptionDto = new RestApiExceptionDto(
             "회원 가입 정보 오류, 형싱에 맞게 가입해 주세요",
             HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(
+            // HTTP body
+            restApiExceptionDto,
+            // HTTP status code
+            HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler({HttpMessageNotReadableException.class})
+    public ResponseEntity<RestApiExceptionDto> HttpMessageNotReadableExceptionHandler(
+        HttpMessageNotReadableException ex) {
+        RestApiExceptionDto restApiExceptionDto = new RestApiExceptionDto(
+            "HttpMessageNotReadableException",
+            HttpStatus.NOT_FOUND.value());
+        ex.printStackTrace();
         return new ResponseEntity<>(
             // HTTP body
             restApiExceptionDto,

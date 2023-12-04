@@ -7,11 +7,10 @@ import com.sparta.springtodolist.entity.Comment;
 import com.sparta.springtodolist.entity.User;
 import com.sparta.springtodolist.repository.BoardRepository;
 import com.sparta.springtodolist.repository.CommentRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

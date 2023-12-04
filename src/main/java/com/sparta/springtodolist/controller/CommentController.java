@@ -32,7 +32,8 @@ public class CommentController {
     @PostMapping("/create/{id}")
     public ResponseEntity<RestApiResponseDto> createComment(@PathVariable Long id,
         @RequestBody CommentRequestDto commentRequestDto,
-        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
                 commentService.createComment(id, commentRequestDto, userDetails.getUser())));
