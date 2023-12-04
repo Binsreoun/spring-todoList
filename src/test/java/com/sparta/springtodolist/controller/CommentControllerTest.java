@@ -175,4 +175,30 @@ class CommentControllerTest {
             .andExpect(status().isOk());
 
     }
+
+
+    @Test
+    void deleteComment() throws Exception {
+        this.mockUserSetup();
+        BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
+            .detail("테스트 디테일").build();
+        Board board = new Board(boardRequestDto, userDetails.getUser());
+        board.setId(1L);
+
+        CommentRequestDto commentRequestDto = CommentRequestDto.builder()
+            .detail("테스트 댓글 디테일").build();
+        Comment comment = new Comment(commentRequestDto, userDetails.getUser(), board);
+        comment.setId(1L);
+
+        given(commentService.deleteComment(board.getId(), userDetails.getUser())).willReturn(1L);
+
+        mvc.perform(post("/api/comments/delete/1").accept(MediaType.APPLICATION_JSON)
+                .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))
+                .accept(MediaType.APPLICATION_JSON)
+                .principal(mockPrincipal)
+            )
+            .andDo(print())
+            .andExpect(status().isOk());
+    }
+
 }
