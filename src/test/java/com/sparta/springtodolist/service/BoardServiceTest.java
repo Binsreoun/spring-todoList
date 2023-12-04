@@ -142,7 +142,7 @@ class BoardServiceTest {
 
         given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
 
-        BoardResponseDto boardResponseDto = boardService.updateBoard(1L,
+        BoardResponseDto boardResponseDto = boardService.updateBoard(board.getId(),
             boardRequestDto, user);
 
         assertThat(boardResponseDto.getUsername()).isEqualTo(board.getUser().getUsername());
@@ -166,7 +166,7 @@ class BoardServiceTest {
         board.setId(1L);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> boardService.updateBoard(1L, boardRequestDto, user));
+            () -> boardService.updateBoard(board.getId(), boardRequestDto, user));
         assertEquals("선택한 게시물이 존재하지 않습니다.", exception.getMessage());
     }
 
@@ -193,7 +193,7 @@ class BoardServiceTest {
 
         given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
 
-        BoardResponseDto boardResponseDto = boardService.updateBoard(1L,
+        BoardResponseDto boardResponseDto = boardService.updateBoard(board.getId(),
             boardRequestDto, user);
 
         BoardRequestDto boardRequestDto2 = BoardRequestDto.builder().title("수정 타이틀")
@@ -206,9 +206,137 @@ class BoardServiceTest {
 
     @Test
     void finishBoard() {
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder().username("test123")
+            .password("12345678").build();
+        String username = signupRequestDto.getUsername();
+        String password = signupRequestDto.getPassword();
+        User user = new User(username, password, UserRoleEnum.USER);
+        user.setId(1L);
+
+        BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
+            .detail("테스트 디테일").build();
+        Board board = new Board(boardRequestDto, user);
+        board.setId(1L);
+        given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
+        BoardResponseDto responseDto = boardService.finishBoard(board.getId(), user);
+        assertThat(responseDto.isFinish());
+
+    }
+
+    @Test
+    void finishBoard_fail1() {
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder().username("test123")
+            .password("12345678").build();
+        String username = signupRequestDto.getUsername();
+        String password = signupRequestDto.getPassword();
+        User user = new User(username, password, UserRoleEnum.USER);
+        user.setId(1L);
+
+        BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
+            .detail("테스트 디테일").build();
+        Board board = new Board(boardRequestDto, user);
+        board.setId(1L);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+            () -> boardService.finishBoard(board.getId(), user));
+        assertEquals("선택한 게시물이 존재하지 않습니다.", exception.getMessage());
+    }
+
+    @Test
+    void finishBoard_fail2() {
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder().username("test123")
+            .password("12345678").build();
+        String username = signupRequestDto.getUsername();
+        String password = signupRequestDto.getPassword();
+        User user = new User(username, password, UserRoleEnum.USER);
+        user.setId(1L);
+
+        SignupRequestDto signupRequestDto2 = SignupRequestDto.builder().username("test12")
+            .password("12345678").build();
+        String username2 = signupRequestDto2.getUsername();
+        String password2 = signupRequestDto2.getPassword();
+        User user2 = new User(username2, password2, UserRoleEnum.USER);
+        user2.setId(2L);
+
+        BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
+            .detail("테스트 디테일").build();
+        Board board = new Board(boardRequestDto, user);
+        board.setId(1L);
+
+        given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
+
+        BoardResponseDto boardResponseDto = boardService.updateBoard(board.getId(),
+            boardRequestDto, user);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+            () -> boardService.finishBoard(board.getId(), user2));
+        assertEquals("본인 이외에는 수정할수 없습니다.", exception.getMessage());
     }
 
     @Test
     void deleteBoard() {
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder().username("test123")
+            .password("12345678").build();
+        String username = signupRequestDto.getUsername();
+        String password = signupRequestDto.getPassword();
+        User user = new User(username, password, UserRoleEnum.USER);
+        user.setId(1L);
+
+        BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
+            .detail("테스트 디테일").build();
+        Board board = new Board(boardRequestDto, user);
+        board.setId(1L);
+        given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
+        String delete = boardService.deleteBoard(board.getId(), user);
+
+        assertThat(delete).isEqualTo("삭제 완료");
     }
+
+    @Test
+    void deleteBoard_fail1() {
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder().username("test123")
+            .password("12345678").build();
+        String username = signupRequestDto.getUsername();
+        String password = signupRequestDto.getPassword();
+        User user = new User(username, password, UserRoleEnum.USER);
+        user.setId(1L);
+
+        BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
+            .detail("테스트 디테일").build();
+        Board board = new Board(boardRequestDto, user);
+        board.setId(1L);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+            () -> boardService.deleteBoard(board.getId(), user));
+        assertEquals("선택한 게시물이 존재하지 않습니다.", exception.getMessage());
+    }
+
+    @Test
+    void deleteBoard_fail2() {
+        SignupRequestDto signupRequestDto = SignupRequestDto.builder().username("test123")
+            .password("12345678").build();
+        String username = signupRequestDto.getUsername();
+        String password = signupRequestDto.getPassword();
+        User user = new User(username, password, UserRoleEnum.USER);
+        user.setId(1L);
+
+        SignupRequestDto signupRequestDto2 = SignupRequestDto.builder().username("test12")
+            .password("12345678").build();
+        String username2 = signupRequestDto2.getUsername();
+        String password2 = signupRequestDto2.getPassword();
+        User user2 = new User(username2, password2, UserRoleEnum.USER);
+        user2.setId(2L);
+
+        BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
+            .detail("테스트 디테일").build();
+        Board board = new Board(boardRequestDto, user);
+        board.setId(1L);
+
+        given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+            () -> boardService.deleteBoard(board.getId(), user2));
+        assertEquals("본인 이외에는 수정할수 없습니다.", exception.getMessage());
+    }
+
 }
