@@ -22,16 +22,16 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class BoardServiceTest {
+class BoardServiceImplTest {
 
     @Mock
     BoardRepository boardRepository;
 
-    BoardService boardService;
+    BoardServiceImpl boardServiceImpl;
 
     @BeforeEach
     void setUp() {
-        boardService = new BoardService(boardRepository);
+        boardServiceImpl = new BoardServiceImpl(boardRepository);
     }
 
     @Test
@@ -57,7 +57,7 @@ class BoardServiceTest {
         given(boardRepository.findAll()).willReturn(
             List.of(board, board2));
 
-        List<BoardResponseDto> list = boardService.getBoard();
+        List<BoardResponseDto> list = boardServiceImpl.getBoard();
 
         assertThat(list.get(0).getTitle()).isEqualTo(boardResponseDto.getTitle());
         assertThat(list.get(0).getDetail()).isEqualTo(boardResponseDto.getDetail());
@@ -68,7 +68,7 @@ class BoardServiceTest {
     @Test
     void getBoard_fail() {
         NullPointerException exception = assertThrows(NullPointerException.class,
-            () -> boardService.getBoard());
+            () -> boardServiceImpl.getBoard());
         assertEquals("게시글이 없습니다.", exception.getMessage());
     }
 
@@ -86,7 +86,7 @@ class BoardServiceTest {
 
         given(boardRepository.save(any(Board.class))).willReturn(board);
 
-        BoardResponseDto boardResponseDto = boardService.createBoard(boardRequestDto, user);
+        BoardResponseDto boardResponseDto = boardServiceImpl.createBoard(boardRequestDto, user);
 
         assertThat(boardResponseDto.getTitle()).isEqualTo(board.getTitle());
         assertThat(boardResponseDto.getDetail()).isEqualTo(board.getDetail());
@@ -108,7 +108,7 @@ class BoardServiceTest {
         board.setId(1L);
 
         given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
-        BoardResponseDto responseDto = boardService.getBoardDetail(board.getId());
+        BoardResponseDto responseDto = boardServiceImpl.getBoardDetail(board.getId());
 
         assertThat(responseDto.getUsername()).isEqualTo(board.getUser().getUsername());
         assertThat(responseDto.getTitle()).isEqualTo(board.getTitle());
@@ -118,7 +118,7 @@ class BoardServiceTest {
     @Test
     void getBoardDetail_fail() {
         NullPointerException exception = assertThrows(NullPointerException.class,
-            () -> boardService.getBoardDetail(1L));
+            () -> boardServiceImpl.getBoardDetail(1L));
         assertEquals("게시글이 없습니다.", exception.getMessage());
     }
 
@@ -142,7 +142,7 @@ class BoardServiceTest {
 
         given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
 
-        BoardResponseDto boardResponseDto = boardService.updateBoard(board.getId(),
+        BoardResponseDto boardResponseDto = boardServiceImpl.updateBoard(board.getId(),
             boardRequestDto2, user);
 
         assertThat(boardResponseDto.getUsername()).isEqualTo(board.getUser().getUsername());
@@ -166,7 +166,7 @@ class BoardServiceTest {
         board.setId(1L);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> boardService.updateBoard(board.getId(), boardRequestDto, user));
+            () -> boardServiceImpl.updateBoard(board.getId(), boardRequestDto, user));
         assertEquals("선택한 게시물이 존재하지 않습니다.", exception.getMessage());
     }
 
@@ -193,14 +193,14 @@ class BoardServiceTest {
 
         given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
 
-        BoardResponseDto boardResponseDto = boardService.updateBoard(board.getId(),
+        BoardResponseDto boardResponseDto = boardServiceImpl.updateBoard(board.getId(),
             boardRequestDto, user);
 
         BoardRequestDto boardRequestDto2 = BoardRequestDto.builder().title("수정 타이틀")
             .detail("수정 디테일").build();
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> boardService.updateBoard(1L, boardRequestDto2, user2));
+            () -> boardServiceImpl.updateBoard(1L, boardRequestDto2, user2));
         assertEquals("본인 이외에는 수정할수 없습니다.", exception.getMessage());
     }
 
@@ -218,7 +218,7 @@ class BoardServiceTest {
         Board board = new Board(boardRequestDto, user);
         board.setId(1L);
         given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
-        BoardResponseDto responseDto = boardService.finishBoard(board.getId(), user);
+        BoardResponseDto responseDto = boardServiceImpl.finishBoard(board.getId(), user);
         assertThat(responseDto.isFinish());
 
     }
@@ -238,7 +238,7 @@ class BoardServiceTest {
         board.setId(1L);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> boardService.finishBoard(board.getId(), user));
+            () -> boardServiceImpl.finishBoard(board.getId(), user));
         assertEquals("선택한 게시물이 존재하지 않습니다.", exception.getMessage());
     }
 
@@ -265,11 +265,11 @@ class BoardServiceTest {
 
         given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
 
-        BoardResponseDto boardResponseDto = boardService.updateBoard(board.getId(),
+        BoardResponseDto boardResponseDto = boardServiceImpl.updateBoard(board.getId(),
             boardRequestDto, user);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> boardService.finishBoard(board.getId(), user2));
+            () -> boardServiceImpl.finishBoard(board.getId(), user2));
         assertEquals("본인 이외에는 수정할수 없습니다.", exception.getMessage());
     }
 
@@ -287,7 +287,7 @@ class BoardServiceTest {
         Board board = new Board(boardRequestDto, user);
         board.setId(1L);
         given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
-        String delete = boardService.deleteBoard(board.getId(), user);
+        String delete = boardServiceImpl.deleteBoard(board.getId(), user);
 
         assertThat(delete).isEqualTo("삭제 완료");
     }
@@ -307,7 +307,7 @@ class BoardServiceTest {
         board.setId(1L);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> boardService.deleteBoard(board.getId(), user));
+            () -> boardServiceImpl.deleteBoard(board.getId(), user));
         assertEquals("선택한 게시물이 존재하지 않습니다.", exception.getMessage());
     }
 
@@ -335,7 +335,7 @@ class BoardServiceTest {
         given(boardRepository.findById(board.getId())).willReturn(Optional.of(board));
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> boardService.deleteBoard(board.getId(), user2));
+            () -> boardServiceImpl.deleteBoard(board.getId(), user2));
         assertEquals("본인 이외에는 수정할수 없습니다.", exception.getMessage());
     }
 

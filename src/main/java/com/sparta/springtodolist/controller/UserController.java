@@ -2,7 +2,7 @@ package com.sparta.springtodolist.controller;
 
 import com.sparta.springtodolist.dto.request.SignupRequestDto;
 import com.sparta.springtodolist.dto.restApi.RestApiResponseDto;
-import com.sparta.springtodolist.service.UserService;
+import com.sparta.springtodolist.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @PostMapping("/users/signup")
     public ResponseEntity<RestApiResponseDto> signup(
         @Valid @RequestBody SignupRequestDto requestDto) {
         return ResponseEntity.status(HttpStatus.CREATED.value())
             .body(new RestApiResponseDto("회원가입 성공", HttpStatus.CREATED.value(),
-                userService.signup(requestDto)));
+                userServiceImpl.signup(requestDto)));
     }
 
 
@@ -35,7 +35,7 @@ public class UserController {
         @Valid @RequestBody SignupRequestDto requestDto) {
         return ResponseEntity.status(HttpStatus.CREATED.value())
             .body(new RestApiResponseDto("회원가입 성공", HttpStatus.CREATED.value(),
-                userService.adminSignup(requestDto)));
+                userServiceImpl.adminSignup(requestDto)));
     }
 
 }

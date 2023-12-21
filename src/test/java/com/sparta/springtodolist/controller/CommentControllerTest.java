@@ -21,9 +21,9 @@ import com.sparta.springtodolist.repository.BoardRepository;
 import com.sparta.springtodolist.repository.CommentRepository;
 import com.sparta.springtodolist.repository.UserRepository;
 import com.sparta.springtodolist.security.UserDetailsImpl;
-import com.sparta.springtodolist.service.BoardService;
-import com.sparta.springtodolist.service.CommentService;
-import com.sparta.springtodolist.service.UserService;
+import com.sparta.springtodolist.service.BoardServiceImpl;
+import com.sparta.springtodolist.service.CommentServiceImpl;
+import com.sparta.springtodolist.service.UserServiceImpl;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.List;
@@ -54,15 +54,15 @@ import org.springframework.web.context.WebApplicationContext;
 class CommentControllerTest {
 
     @MockBean
-    BoardService boardService;
+    BoardServiceImpl boardServiceImpl;
     @MockBean
     BoardRepository boardRepository;
     @MockBean
-    UserService userService;
+    UserServiceImpl userServiceImpl;
     @MockBean
     UserRepository userRepository;
     @MockBean
-    CommentService commentService;
+    CommentServiceImpl commentServiceImpl;
     @MockBean
     CommentRepository commentRepository;
 
@@ -108,7 +108,7 @@ class CommentControllerTest {
         Comment comment = new Comment(commentRequestDto, userDetails.getUser(), board);
         comment.setId(1L);
 
-        given(commentService.viewComment(board.getId())).willReturn(
+        given(commentServiceImpl.viewComment(board.getId())).willReturn(
             (List.of(new CommentResponseDto(comment))));
 
         mvc.perform(get("/api/comments/contents/1").accept(MediaType.APPLICATION_JSON))
@@ -130,7 +130,7 @@ class CommentControllerTest {
         Comment comment = new Comment(commentRequestDto, userDetails.getUser(), board);
         comment.setId(1L);
 
-        given(commentService.createComment(board.getId(), commentRequestDto,
+        given(commentServiceImpl.createComment(board.getId(), commentRequestDto,
             userDetails.getUser())).willReturn(new CommentResponseDto(comment));
 
         String json = objectMapper.writeValueAsString(commentRequestDto);
@@ -163,7 +163,7 @@ class CommentControllerTest {
 
         String json = objectMapper.writeValueAsString(commentRequestDto2);
 
-        given(commentService.updateComment(board.getId(), commentRequestDto2,
+        given(commentServiceImpl.updateComment(board.getId(), commentRequestDto2,
             userDetails.getUser())).willReturn(new CommentResponseDto(comment));
 
         mvc.perform(post("/api/comments/update/1").accept(MediaType.APPLICATION_JSON)
@@ -190,7 +190,8 @@ class CommentControllerTest {
         Comment comment = new Comment(commentRequestDto, userDetails.getUser(), board);
         comment.setId(1L);
 
-        given(commentService.deleteComment(board.getId(), userDetails.getUser())).willReturn(1L);
+        given(commentServiceImpl.deleteComment(board.getId(), userDetails.getUser())).willReturn(
+            1L);
 
         mvc.perform(post("/api/comments/delete/1").accept(MediaType.APPLICATION_JSON)
                 .contentType(new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8))

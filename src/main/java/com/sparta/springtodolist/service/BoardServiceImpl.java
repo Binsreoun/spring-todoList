@@ -12,10 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class BoardService {
+public class BoardServiceImpl implements BoradService {
 
     private final BoardRepository boardRepository;
 
+    @Override
     @Transactional(readOnly = true)
     public List<BoardResponseDto> getBoard() {
         List<BoardResponseDto> list = boardRepository.findAll().stream().map(BoardResponseDto::new)
@@ -26,18 +27,21 @@ public class BoardService {
         return list;
     }
 
+    @Override
     public BoardResponseDto createBoard(BoardRequestDto boardRequestDto, User user) {
         Board board = new Board(boardRequestDto, user);
         boardRepository.save(board);
         return new BoardResponseDto(board);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public BoardResponseDto getBoardDetail(Long id) {
         return new BoardResponseDto(
             boardRepository.findById(id).orElseThrow(() -> new NullPointerException("게시글이 없습니다.")));
     }
 
+    @Override
     @Transactional
     public BoardResponseDto updateBoard(Long id, BoardRequestDto boardRequestDto, User user) {
         Board board = boardRepository.findById(id).orElseThrow(
@@ -49,6 +53,7 @@ public class BoardService {
         return new BoardResponseDto(board);
     }
 
+    @Override
     @Transactional
     public BoardResponseDto finishBoard(Long id, User user) {
         Board board = boardRepository.findById(id).orElseThrow(
@@ -60,6 +65,7 @@ public class BoardService {
         return new BoardResponseDto(board);
     }
 
+    @Override
     @Transactional
     public String deleteBoard(Long id, User user) {
         Board board = boardRepository.findById(id).orElseThrow(

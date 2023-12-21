@@ -22,8 +22,8 @@ import com.sparta.springtodolist.entity.UserRoleEnum;
 import com.sparta.springtodolist.repository.BoardRepository;
 import com.sparta.springtodolist.repository.UserRepository;
 import com.sparta.springtodolist.security.UserDetailsImpl;
-import com.sparta.springtodolist.service.BoardService;
-import com.sparta.springtodolist.service.UserService;
+import com.sparta.springtodolist.service.BoardServiceImpl;
+import com.sparta.springtodolist.service.UserServiceImpl;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.List;
@@ -54,11 +54,11 @@ import org.springframework.web.context.WebApplicationContext;
 class BoardControllerTest {
 
     @MockBean
-    BoardService boardService;
+    BoardServiceImpl boardServiceImpl;
     @MockBean
     BoardRepository boardRepository;
     @MockBean
-    UserService userService;
+    UserServiceImpl userServiceImpl;
     @MockBean
     UserRepository userRepository;
 
@@ -101,7 +101,7 @@ class BoardControllerTest {
         BoardRequestDto boardRequestDto = BoardRequestDto.builder().title("테스트 타이틀")
             .detail("테스트 디테일").build();
         Board board = new Board(boardRequestDto, user);
-        given(boardService.getBoard()).willReturn(List.of(new BoardResponseDto(board)));
+        given(boardServiceImpl.getBoard()).willReturn(List.of(new BoardResponseDto(board)));
 
         mvc.perform(get("/api/boards/contents").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
@@ -121,7 +121,8 @@ class BoardControllerTest {
         Board board = new Board(boardRequestDto, user);
         board.setId(1L);
 
-        given(boardService.getBoardDetail(board.getId())).willReturn(new BoardResponseDto(board));
+        given(boardServiceImpl.getBoardDetail(board.getId())).willReturn(
+            new BoardResponseDto(board));
 
         mvc.perform(get("/api/boards/contents/1").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
@@ -155,7 +156,7 @@ class BoardControllerTest {
             .detail("수정").build();
         Board board2 = new Board(boardRequestDto2, userDetails.getUser());
 
-        given(boardService.updateBoard(board.getId(), boardRequestDto2,
+        given(boardServiceImpl.updateBoard(board.getId(), boardRequestDto2,
             userDetails.getUser())).willReturn(new BoardResponseDto(board2));
 
         String json = objectMapper.writeValueAsString(boardRequestDto2);
@@ -181,7 +182,7 @@ class BoardControllerTest {
         Board board2 = new Board(boardRequestDto, userDetails.getUser());
         board2.setFinish(true);
         board2.setId(1L);
-        given(boardService.finishBoard(board.getId(), userDetails.getUser())).willReturn(
+        given(boardServiceImpl.finishBoard(board.getId(), userDetails.getUser())).willReturn(
             new BoardResponseDto(board2));
 
         mvc.perform(patch("/api/boards/finish/1").accept(MediaType.APPLICATION_JSON)
@@ -203,7 +204,7 @@ class BoardControllerTest {
         Board board = new Board(boardRequestDto, userDetails.getUser());
         board.setId(1L);
 
-        given(boardService.deleteBoard(board.getId(), userDetails.getUser())).willReturn(
+        given(boardServiceImpl.deleteBoard(board.getId(), userDetails.getUser())).willReturn(
             "삭제 완료");
 
         mvc.perform(delete("/api/boards/delete/1").accept(MediaType.APPLICATION_JSON)

@@ -10,7 +10,7 @@ import com.sparta.springtodolist.MockSpringSecurityFilter;
 import com.sparta.springtodolist.config.WebSecurityConfig;
 import com.sparta.springtodolist.dto.request.SignupRequestDto;
 import com.sparta.springtodolist.repository.UserRepository;
-import com.sparta.springtodolist.service.UserService;
+import com.sparta.springtodolist.service.UserServiceImpl;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ import org.springframework.web.context.WebApplicationContext;
 class UserControllerTest {
 
     @MockBean
-    UserService userService;
+    UserServiceImpl userServiceImpl;
     @MockBean
     UserRepository userRepository;
     private MockMvc mvc;

@@ -19,19 +19,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserServiceImplTest {
 
     @Mock
     UserRepository userRepository;
     @Mock
     PasswordEncoder passwordEncoder;
 
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(userRepository, passwordEncoder);
+        userServiceImpl = new UserServiceImpl(userRepository, passwordEncoder);
     }
 
     @DisplayName("회원가입 성공")
@@ -46,8 +46,8 @@ class UserServiceTest {
 
         given(userRepository.findByUsername(username)).willReturn(Optional.empty());
         given(userRepository.save(any(User.class))).willReturn(user);
-        userService.signup(signupRequestDto);
-        assertThat(username).isEqualTo(userService.signup(signupRequestDto).getUsername());
+        userServiceImpl.signup(signupRequestDto);
+        assertThat(username).isEqualTo(userServiceImpl.signup(signupRequestDto).getUsername());
     }
 
     @DisplayName("회원가입 실패 - 중복된 유저네임")
@@ -63,7 +63,7 @@ class UserServiceTest {
         given(userRepository.findByUsername(username)).willReturn(Optional.of(user));
 
         // when & then
-        assertThatThrownBy(() -> userService.signup(signupRequestDto)).isInstanceOf(
+        assertThatThrownBy(() -> userServiceImpl.signup(signupRequestDto)).isInstanceOf(
             IllegalArgumentException.class);
     }
 
@@ -79,8 +79,8 @@ class UserServiceTest {
 
         given(userRepository.findByUsername(username)).willReturn(Optional.empty());
         given(userRepository.save(any(User.class))).willReturn(user);
-        userService.adminSignup(signupRequestDto);
-        assertThat(username).isEqualTo(userService.signup(signupRequestDto).getUsername());
+        userServiceImpl.adminSignup(signupRequestDto);
+        assertThat(username).isEqualTo(userServiceImpl.signup(signupRequestDto).getUsername());
 
     }
 
@@ -97,7 +97,7 @@ class UserServiceTest {
         given(userRepository.findByUsername(username)).willReturn(Optional.of(user));
 
         // when & then
-        assertThatThrownBy(() -> userService.adminSignup(signupRequestDto)).isInstanceOf(
+        assertThatThrownBy(() -> userServiceImpl.adminSignup(signupRequestDto)).isInstanceOf(
             IllegalArgumentException.class);
     }
 }

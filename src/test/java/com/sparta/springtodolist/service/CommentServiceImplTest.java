@@ -25,17 +25,17 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class CommentServiceTest {
+class CommentServiceImplTest {
 
     @Mock
     CommentRepository commentRepository;
     @Mock
     BoardRepository boardRepository;
-    CommentService commentService;
+    CommentServiceImpl commentServiceImpl;
 
     @BeforeEach
     void setUp() {
-        commentService = new CommentService(commentRepository, boardRepository);
+        commentServiceImpl = new CommentServiceImpl(commentRepository, boardRepository);
     }
 
     @Test
@@ -61,7 +61,7 @@ class CommentServiceTest {
         given(boardRepository.findById(1L)).willReturn(Optional.of(board));
         given(commentRepository.findByBoard(board)).willReturn(List.of(comment));
 
-        List<CommentResponseDto> list = commentService.viewComment(board.getId());
+        List<CommentResponseDto> list = commentServiceImpl.viewComment(board.getId());
 
         assertThat(list.get(0).getDetail()).isEqualTo(commentRequestDto.getDetail());
     }
@@ -69,7 +69,7 @@ class CommentServiceTest {
     @Test
     void viewComment_fail() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> commentService.viewComment(3L));
+            () -> commentServiceImpl.viewComment(3L));
         assertEquals("선택한 게시물이 존재하지 않습니다.", exception.getMessage());
     }
 
@@ -95,7 +95,7 @@ class CommentServiceTest {
         given(boardRepository.findById(1L)).willReturn(Optional.of(board));
         given(commentRepository.save(any(Comment.class))).willReturn(comment);
 
-        CommentResponseDto commentResponseDto = commentService.createComment(board.getId(),
+        CommentResponseDto commentResponseDto = commentServiceImpl.createComment(board.getId(),
             commentRequestDto, user);
 
         assertThat(commentResponseDto.getDetail()).isEqualTo(comment.getDetail());
@@ -121,7 +121,7 @@ class CommentServiceTest {
         comment.setId(1L);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> commentService.createComment(board.getId(),
+            () -> commentServiceImpl.createComment(board.getId(),
                 commentRequestDto, user));
         assertEquals("선택한 게시물이 존재하지 않습니다.", exception.getMessage());
     }
@@ -150,7 +150,7 @@ class CommentServiceTest {
 
         given(commentRepository.findById(1L)).willReturn(Optional.of(comment));
 
-        CommentResponseDto commentResponseDto = commentService.updateComment(comment.getId(),
+        CommentResponseDto commentResponseDto = commentServiceImpl.updateComment(comment.getId(),
             commentRequestDto2, user);
 
         assertThat(commentResponseDto.getDetail()).isEqualTo(commentRequestDto2.getDetail());
@@ -176,7 +176,7 @@ class CommentServiceTest {
         comment.setId(1L);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> commentService.updateComment(comment.getId(),
+            () -> commentServiceImpl.updateComment(comment.getId(),
                 commentRequestDto, user));
         assertEquals("선택한 댓글 존재하지 않습니다.", exception.getMessage());
     }
@@ -210,7 +210,7 @@ class CommentServiceTest {
         given(commentRepository.findById(1L)).willReturn(Optional.of(comment));
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> commentService.updateComment(comment.getId(),
+            () -> commentServiceImpl.updateComment(comment.getId(),
                 commentRequestDto, user2));
         assertEquals("본인 이외에는 수정할수 없습니다.", exception.getMessage());
     }
@@ -234,7 +234,7 @@ class CommentServiceTest {
         Comment comment = new Comment(commentRequestDto, user, board);
         comment.setId(1L);
         given(commentRepository.findById(1L)).willReturn(Optional.of(comment));
-        Long id = commentService.deleteComment(comment.getId(),
+        Long id = commentServiceImpl.deleteComment(comment.getId(),
             user);
         assertThat(id).isEqualTo(comment.getId());
     }
@@ -259,7 +259,7 @@ class CommentServiceTest {
         comment.setId(1L);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> commentService.deleteComment(comment.getId(),
+            () -> commentServiceImpl.deleteComment(comment.getId(),
                 user));
         assertEquals("선택한 댓글 존재하지 않습니다.", exception.getMessage());
     }
@@ -293,7 +293,7 @@ class CommentServiceTest {
         given(commentRepository.findById(1L)).willReturn(Optional.of(comment));
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> commentService.deleteComment(comment.getId(),
+            () -> commentServiceImpl.deleteComment(comment.getId(),
                 user2));
         assertEquals("본인 이외에는 수정할수 없습니다.", exception.getMessage());
     }

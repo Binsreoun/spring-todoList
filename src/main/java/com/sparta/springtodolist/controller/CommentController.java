@@ -3,7 +3,7 @@ package com.sparta.springtodolist.controller;
 import com.sparta.springtodolist.dto.request.CommentRequestDto;
 import com.sparta.springtodolist.dto.restApi.RestApiResponseDto;
 import com.sparta.springtodolist.security.UserDetailsImpl;
-import com.sparta.springtodolist.service.CommentService;
+import com.sparta.springtodolist.service.CommentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/comments")
 public class CommentController {
 
-    private final CommentService commentService;
+    private final CommentServiceImpl commentServiceImpl;
 
     @GetMapping("/contents/{id}")
     public ResponseEntity<RestApiResponseDto> viewComment(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
-                commentService.viewComment(id)));
+                commentServiceImpl.viewComment(id)));
     }
 
     @PostMapping("/create/{id}")
@@ -36,7 +36,7 @@ public class CommentController {
     ) {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
-                commentService.createComment(id, commentRequestDto, userDetails.getUser())));
+                commentServiceImpl.createComment(id, commentRequestDto, userDetails.getUser())));
     }
 
     @PostMapping("/update/{id}")
@@ -45,7 +45,7 @@ public class CommentController {
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
-                commentService.updateComment(id, commentRequestDto, userDetails.getUser())));
+                commentServiceImpl.updateComment(id, commentRequestDto, userDetails.getUser())));
     }
 
     @PostMapping("/delete/{id}")
@@ -53,6 +53,6 @@ public class CommentController {
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
-                commentService.deleteComment(id, userDetails.getUser())));
+                commentServiceImpl.deleteComment(id, userDetails.getUser())));
     }
 }

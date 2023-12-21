@@ -3,7 +3,7 @@ package com.sparta.springtodolist.controller;
 import com.sparta.springtodolist.dto.request.BoardRequestDto;
 import com.sparta.springtodolist.dto.restApi.RestApiResponseDto;
 import com.sparta.springtodolist.security.UserDetailsImpl;
-import com.sparta.springtodolist.service.BoardService;
+import com.sparta.springtodolist.service.BoardServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,20 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class BoardController {
 
-    private final BoardService boardService;
+    private final BoardServiceImpl boardServiceImpl;
 
     @GetMapping("/contents")
     private ResponseEntity<RestApiResponseDto> getBoard() {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
-                boardService.getBoard()));
+                boardServiceImpl.getBoard()));
     }
 
     @GetMapping("/contents/{id}")
     private ResponseEntity<RestApiResponseDto> getBoardDetail(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
-                boardService.getBoardDetail(id)));
+                boardServiceImpl.getBoardDetail(id)));
     }
 
     @PostMapping("/create")
@@ -45,7 +45,7 @@ public class BoardController {
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
-                boardService.createBoard(boardRequestDto, userDetails.getUser())));
+                boardServiceImpl.createBoard(boardRequestDto, userDetails.getUser())));
     }
 
     @PutMapping("/update/{id}")
@@ -54,7 +54,7 @@ public class BoardController {
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
-                boardService.updateBoard(id, boardRequestDto, userDetails.getUser())));
+                boardServiceImpl.updateBoard(id, boardRequestDto, userDetails.getUser())));
     }
 
     @PatchMapping("/finish/{id}")
@@ -62,7 +62,7 @@ public class BoardController {
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
-                boardService.finishBoard(id, userDetails.getUser())));
+                boardServiceImpl.finishBoard(id, userDetails.getUser())));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -70,6 +70,6 @@ public class BoardController {
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.status(HttpStatus.OK.value())
             .body(new RestApiResponseDto("성공", HttpStatus.OK.value(),
-                boardService.deleteBoard(id, userDetails.getUser())));
+                boardServiceImpl.deleteBoard(id, userDetails.getUser())));
     }
 }
