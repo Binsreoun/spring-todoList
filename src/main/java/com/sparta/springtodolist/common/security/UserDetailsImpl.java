@@ -1,14 +1,13 @@
-package com.sparta.springtodolist.security;
+package com.sparta.springtodolist.common.security;
 
 
 import com.sparta.springtodolist.entity.User;
 import com.sparta.springtodolist.entity.UserRoleEnum;
+import java.util.ArrayList;
+import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class UserDetailsImpl implements UserDetails {
 

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
+import com.sparta.springtodolist.common.util.JwtUtil;
 import com.sparta.springtodolist.entity.UserRoleEnum;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;

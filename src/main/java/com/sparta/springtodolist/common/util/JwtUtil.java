@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.util;
+package com.sparta.springtodolist.common.util;
 
 import com.sparta.springtodolist.entity.UserRoleEnum;
 import io.jsonwebtoken.Claims;

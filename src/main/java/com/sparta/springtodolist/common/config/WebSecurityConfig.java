@@ -1,10 +1,10 @@
-package com.sparta.springtodolist.config;
+package com.sparta.springtodolist.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.springtodolist.filter.JwtAuthenticationFilter;
-import com.sparta.springtodolist.filter.JwtAuthorizationFilter;
-import com.sparta.springtodolist.security.UserDetailsServiceImpl;
-import com.sparta.springtodolist.util.JwtUtil;
+import com.sparta.springtodolist.common.filter.JwtAuthenticationFilter;
+import com.sparta.springtodolist.common.filter.JwtAuthorizationFilter;
+import com.sparta.springtodolist.common.security.UserDetailsServiceImpl;
+import com.sparta.springtodolist.common.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +37,7 @@ public class WebSecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil,objectMapper);
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil, objectMapper);
         filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
         return filter;
     }

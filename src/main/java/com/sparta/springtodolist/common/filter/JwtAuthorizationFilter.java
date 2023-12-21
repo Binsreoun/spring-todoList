@@ -1,10 +1,10 @@
-package com.sparta.springtodolist.filter;
+package com.sparta.springtodolist.common.filter;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.springtodolist.common.security.UserDetailsServiceImpl;
+import com.sparta.springtodolist.common.util.JwtUtil;
 import com.sparta.springtodolist.dto.restApi.RestApiExceptionDto;
-import com.sparta.springtodolist.security.UserDetailsServiceImpl;
-import com.sparta.springtodolist.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,5 +1,6 @@
-package com.sparta.springtodolist.exception;
+package com.sparta.springtodolist.common.exception;
 
+import com.sparta.springtodolist.dto.response.ErrorResponse;
 import com.sparta.springtodolist.dto.restApi.RestApiExceptionDto;
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ServiceException.class)
+    public ResponseEntity<?> handleException(ServiceException ex) {
+        ErrorCode code = ex.getCode();
+        ErrorResponse<Object> response = ErrorResponse.builder()
+            .code(code.getCode())
+            .message(code.getMessage())
+            .build();
+        return ResponseEntity.status(code.getStatus())
+            .body(response);
+    }
 
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<RestApiExceptionDto> illegalArgumentExceptionHandler(

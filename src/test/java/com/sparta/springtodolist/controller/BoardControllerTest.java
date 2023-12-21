@@ -12,7 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.springtodolist.MockSpringSecurityFilter;
-import com.sparta.springtodolist.config.WebSecurityConfig;
+import com.sparta.springtodolist.common.config.WebSecurityConfig;
+import com.sparta.springtodolist.common.security.UserDetailsImpl;
 import com.sparta.springtodolist.dto.request.BoardRequestDto;
 import com.sparta.springtodolist.dto.request.SignupRequestDto;
 import com.sparta.springtodolist.dto.response.BoardResponseDto;
@@ -21,7 +22,6 @@ import com.sparta.springtodolist.entity.User;
 import com.sparta.springtodolist.entity.UserRoleEnum;
 import com.sparta.springtodolist.repository.BoardRepository;
 import com.sparta.springtodolist.repository.UserRepository;
-import com.sparta.springtodolist.security.UserDetailsImpl;
 import com.sparta.springtodolist.service.BoardServiceImpl;
 import com.sparta.springtodolist.service.UserServiceImpl;
 import java.nio.charset.StandardCharsets;

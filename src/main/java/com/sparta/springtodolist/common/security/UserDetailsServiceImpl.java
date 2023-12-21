@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.security;
+package com.sparta.springtodolist.common.security;
 
 import com.sparta.springtodolist.entity.User;
 import com.sparta.springtodolist.repository.UserRepository;
@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Not Found " + username));
+            .orElseThrow(() -> new UsernameNotFoundException("Not Found " + username));
 
         return new UserDetailsImpl(user);
     }

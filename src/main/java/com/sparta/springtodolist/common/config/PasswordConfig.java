@@ -1,4 +1,4 @@
-package com.sparta.springtodolist.config;
+package com.sparta.springtodolist.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

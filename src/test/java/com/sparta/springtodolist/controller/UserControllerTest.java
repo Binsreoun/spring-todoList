@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.springtodolist.MockSpringSecurityFilter;
-import com.sparta.springtodolist.config.WebSecurityConfig;
+import com.sparta.springtodolist.common.config.WebSecurityConfig;
 import com.sparta.springtodolist.dto.request.SignupRequestDto;
 import com.sparta.springtodolist.repository.UserRepository;
 import com.sparta.springtodolist.service.UserServiceImpl;
