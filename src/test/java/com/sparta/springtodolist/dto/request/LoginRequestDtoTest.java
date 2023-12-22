@@ -28,4 +28,11 @@ class LoginRequestDtoTest {
         assertEquals("12345678", loginRequestDto.getPassword());
     }
 
+    @Test
+    void create() {
+        LoginRequestDto loginRequestDto = new LoginRequestDto("test123","12345678");
+        assertEquals("test123", loginRequestDto.getUsername());
+        assertEquals("12345678", loginRequestDto.getPassword());
+    }
+
 }
