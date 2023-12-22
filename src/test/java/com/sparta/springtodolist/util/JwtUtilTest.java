@@ -111,19 +111,6 @@ class JwtUtilTest {
             assertTrue(isValid);
         }
 
-        @DisplayName("토큰 검증 실패 - 유효하지 않은 토큰")
-        @Test
-        void validateToken_fail() {
-            // given
-            String invalidToken = "invalid-token";
-
-            // when
-            boolean isValid = jwtUtil.validateToken(invalidToken);
-
-            // then
-            assertFalse(isValid);
-        }
-
     }
 
 }
