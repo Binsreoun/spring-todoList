@@ -1,8 +1,5 @@
 package com.sparta.springtodolist.dto.response;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import com.sparta.springtodolist.dto.request.BoardRequestDto;
 import com.sparta.springtodolist.dto.request.CommentRequestDto;
 import com.sparta.springtodolist.entity.Board;
@@ -11,6 +8,8 @@ import com.sparta.springtodolist.entity.User;
 import com.sparta.springtodolist.entity.UserRoleEnum;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class CommentResponseDtoTest {
 
@@ -49,5 +48,11 @@ class CommentResponseDtoTest {
     void getDetail() {
         CommentResponseDto responseDto = new CommentResponseDto(comment);
         assertEquals("테스트 댓글 디테일", responseDto.getDetail());
+    }
+
+    @Test
+    void toStringTest() {
+        String responseDto = CommentRequestDto.builder().toString();
+        assertEquals(responseDto,"CommentRequestDto.CommentRequestDtoBuilder(detail=null)");
     }
 }

@@ -1,15 +1,14 @@
 package com.sparta.springtodolist.dto.response;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import com.sparta.springtodolist.dto.request.BoardRequestDto;
+import com.sparta.springtodolist.dto.request.LoginRequestDto;
 import com.sparta.springtodolist.entity.Board;
 import com.sparta.springtodolist.entity.User;
 import com.sparta.springtodolist.entity.UserRoleEnum;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class BoardResponseDtoTest {
 
@@ -58,5 +57,9 @@ class BoardResponseDtoTest {
         BoardResponseDto responseDto = new BoardResponseDto(board);
         assertFalse(responseDto.isFinish());
     }
-
+    @Test
+    void toStringTest() {
+        String responseDto = BoardRequestDto.builder().toString();
+        assertEquals(responseDto,"BoardRequestDto.BoardRequestDtoBuilder(title=null, detail=null)");                ;
+    }
 }

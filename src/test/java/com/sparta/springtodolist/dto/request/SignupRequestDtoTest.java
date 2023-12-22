@@ -2,6 +2,7 @@ package com.sparta.springtodolist.dto.request;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -74,6 +75,12 @@ class SignupRequestDtoTest {
             signupRequestDto);
 
         assertThat(violations).isNotEmpty();
+    }
+
+    @Test
+    void toStringTest() {
+        String signupRequestDto = SignupRequestDto.builder().toString();
+        assertEquals(signupRequestDto,"SignupRequestDto.SignupRequestDtoBuilder(username=null, password=null)");                ;
     }
 
 }

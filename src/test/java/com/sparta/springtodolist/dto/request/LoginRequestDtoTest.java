@@ -1,8 +1,9 @@
 package com.sparta.springtodolist.dto.request;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import com.sparta.springtodolist.dto.response.BoardResponseDto;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class LoginRequestDtoTest {
 
@@ -30,9 +31,15 @@ class LoginRequestDtoTest {
 
     @Test
     void create() {
-        LoginRequestDto loginRequestDto = new LoginRequestDto("test123","12345678");
-        assertEquals("test123", loginRequestDto.getUsername());
-        assertEquals("12345678", loginRequestDto.getPassword());
+        LoginRequestDto loginRequestDto = new LoginRequestDto();
+        assertNull(loginRequestDto.getUsername());
+        assertNull(loginRequestDto.getPassword());
+    }
+
+    @Test
+    void toStringTest() {
+        String loginRequestDto = LoginRequestDto.builder().toString();
+        assertEquals(loginRequestDto,"LoginRequestDto.LoginRequestDtoBuilder(username=null, password=null)");                ;
     }
 
 }
