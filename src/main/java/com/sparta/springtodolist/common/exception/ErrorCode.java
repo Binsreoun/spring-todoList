@@ -19,8 +19,12 @@ public enum ErrorCode {
     // admin 4XXX
 
     // global 5XXX
-    NOT_LOGIN(HttpStatus.UNAUTHORIZED, "5000", "로그인이 필요합니다.");
-
+    NOT_LOGIN(HttpStatus.UNAUTHORIZED, "5000", "로그인이 필요합니다."),
+    TOKEN_SecurityException(HttpStatus.BAD_REQUEST,"5001","Invalid JWT signature, 유효하지 않는 JWT 서명 입니다."),
+    TOKEN_MalformedJwtException(HttpStatus.BAD_REQUEST,"5002","Invalid JWT signature, 유효하지 않는 JWT 서명 입니다."),
+    TOKEN_ExpiredJwtException(HttpStatus.BAD_REQUEST,"5003","Expired JWT token, 만료된 JWT token 입니다."),
+    TOKEN_UnsupportedJwtException(HttpStatus.BAD_REQUEST,"5004","Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다."),
+    TOKEN_IllegalArgumentException(HttpStatus.BAD_REQUEST,"5005","JWT claims is empty, 잘못된 JWT 토큰 입니다.");
 
     private final HttpStatus status;
     private final String code;

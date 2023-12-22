@@ -1,12 +1,6 @@
 package com.sparta.springtodolist.util;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.BDDMockito.given;
-
 import com.sparta.springtodolist.common.util.JwtUtil;
 import com.sparta.springtodolist.entity.UserRoleEnum;
 import io.jsonwebtoken.Claims;
@@ -17,8 +11,12 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -29,6 +27,10 @@ class JwtUtilTest {
 
     @Mock
     private HttpServletRequest request;
+
+    @Value("${jwt.secret.key}")
+    private  String secretKey;             // Base64 Encode 한 SecretKey
+
 
     @BeforeEach
     void setUp() {
@@ -59,6 +61,21 @@ class JwtUtilTest {
 
         // then
         assertEquals(token, resolvedToken);
+    }
+
+    @DisplayName("토큰 추출 null")
+    @Test
+    void resolveToken2() {
+        // given
+        var token = "test-token";
+        var bearerToken = token;
+
+        // when
+        given(request.getHeader(JwtUtil.AUTHORIZATION_HEADER)).willReturn(bearerToken);
+        var resolvedToken = jwtUtil.getJwtFromHeader(request);
+
+        // then
+        assertEquals(null, resolvedToken);
     }
 
     @DisplayName("토큰에서 UserInfo 조회")
@@ -106,6 +123,7 @@ class JwtUtilTest {
             // then
             assertFalse(isValid);
         }
+
     }
 
 }

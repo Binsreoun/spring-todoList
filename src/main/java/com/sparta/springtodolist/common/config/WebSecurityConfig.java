@@ -1,6 +1,7 @@
 package com.sparta.springtodolist.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.springtodolist.common.filter.ExceptionHandleFilter;
 import com.sparta.springtodolist.common.filter.JwtAuthenticationFilter;
 import com.sparta.springtodolist.common.filter.JwtAuthorizationFilter;
 import com.sparta.springtodolist.common.security.UserDetailsServiceImpl;
@@ -48,6 +49,10 @@ public class WebSecurityConfig {
     }
 
     @Bean
+    public ExceptionHandleFilter exceptionHandleFilter() {
+        return new ExceptionHandleFilter();
+    }
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // CSRF 설정
         http.csrf((csrf) -> csrf.disable());
@@ -74,7 +79,7 @@ public class WebSecurityConfig {
         // 필터 관리
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
+        http.addFilterBefore(exceptionHandleFilter(), JwtAuthenticationFilter.class);
         return http.build();
     }
 }

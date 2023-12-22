@@ -103,9 +103,17 @@ class BoardTest {
     }
 
     @Test
-    void setFinish() {
+    void setTrueFinish() {
         Board board = new Board(boardRequestDto, user);
         board.setFinish(true);
         assertTrue(board.isFinish());
+    }
+    @Test
+    void setFinish() {
+        Board board = new Board(boardRequestDto, user);
+        board.finish();
+        assertTrue(board.isFinish());
+        board.finish();
+        assertFalse(board.isFinish());
     }
 }
