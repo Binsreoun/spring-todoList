@@ -1,13 +1,13 @@
 package com.sparta.springtodolist.entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.sparta.springtodolist.dto.request.BoardRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
@@ -103,9 +103,33 @@ class BoardTest {
     }
 
     @Test
-    void setFinish() {
+    void setTrueFinish() {
         Board board = new Board(boardRequestDto, user);
         board.setFinish(true);
         assertTrue(board.isFinish());
+    }
+    @Test
+    void setFinish() {
+        Board board = new Board(boardRequestDto, user);
+        board.finish();
+        assertTrue(board.isFinish());
+        board.finish();
+        assertFalse(board.isFinish());
+    }
+
+    @Test
+    void create() {
+        Board board = new Board(boardRequestDto, user);
+        LocalDateTime time = board.getCreatedAt();
+        LocalDateTime now = LocalDateTime.now();
+        assertNotEquals(now,time);
+    }
+
+    @Test
+    void modify() {
+        Board board = new Board(boardRequestDto, user);
+        LocalDateTime time = board.getModifiedAt();
+        LocalDateTime now = LocalDateTime.now();
+        assertNotEquals(now,time);
     }
 }

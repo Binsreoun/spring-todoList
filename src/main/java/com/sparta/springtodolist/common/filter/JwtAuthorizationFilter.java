@@ -11,6 +11,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import lombok.Generated;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j(topic = "JWT 검증 및 인가")
 @RequiredArgsConstructor
+@Generated
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
@@ -51,6 +54,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                     res.getWriter().write(objectMapper.writeValueAsString(restApiExceptionDto));
                 }
             } else {
+
                 RestApiExceptionDto restApiExceptionDto = new RestApiExceptionDto(
                     "토큰이 유효하지 않습니다",
                     HttpStatus.BAD_REQUEST.value());
@@ -78,4 +82,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         return new UsernamePasswordAuthenticationToken(userDetails, null,
             userDetails.getAuthorities());
     }
+
+
 }
